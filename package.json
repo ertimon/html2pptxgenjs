@@ -1,16 +1,16 @@
 {
   "name": "html2pptxgenjs",
-  "version": "0.0.3",
-  "description": "Convert HTML into PptxGenJS text",
+  "version": "0.0.4",
+  "description": "Fork from https://github.com/it-beyondit/html2pptxgenjs to Convert HTML into PptxGenJS text",
   "main": "dist/html2pptxgenjs.cjs.js",
   "scripts": {
     "build": "rollup --config rollup.config.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/it-beyondit/html2pptxgenjs"
+    "url": "https://github.com/ertimon/html2pptxgenjs"
   },
-  "author": "BeyondIt S.r.l.",
+  "author": "ertimon",
   "license": "MIT",
   "dependencies": {
     "css": "^2.2.4",
