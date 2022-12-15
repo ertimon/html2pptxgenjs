@@ -1,6 +1,6 @@
 {
   "name": "html-to-pptxgenjs-parser",
-  "version": "0.0.41",
+  "version": "0.0.42",
   "description": "Fork from https://github.com/it-beyondit/html2pptxgenjs to Convert HTML into PptxGenJS text",
   "main": "dist/html-to-pptxgenjs-parser.cjs.js",
   "scripts": {
