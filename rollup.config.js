@@ -8,7 +8,7 @@ export default {
     }, {
         file: 'dist/html-to-pptxgenjs-parser.min.js',
         format: 'iife',
-        name: 'html-to-pptxgenjs-parser',
+        name: 'htmlToPptxgenjsParser',
         plugins: [terser()]
     }]
 };
