@@ -2,7 +2,7 @@
 //
 // Use of this source code is governed by an MIT-style license that can be found
 // in the LICENSE file or at https://opensource.org/licenses/MIT.
-const html2pptxgenjs = require('html2pptxgenjs');
+const parser = require('html-to-pptxgenjs-parser');
 
 const pptxgen = require('pptxgenjs');
 
@@ -76,7 +76,7 @@ let pres = new pptxgen();
 Slides.forEach(text => {
     let slide = pres.addSlide();
 
-    const items = html2pptxgenjs.htmlToPptxText(text, options);
+    const items = parser.htmlToPptxText(text, options);
 
     slide.addText(items, { x: 0.5, y: 0, w: 9.5, h: 6, valign: 'top' });
 

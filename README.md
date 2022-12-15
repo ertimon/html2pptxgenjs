@@ -1,22 +1,18 @@
 # Introduction 
-Html2pptxgenjs provides a simple API for converting HTML into [PptxGenJS](https://github.com/gitbrent/PptxGenJS) text. It runs in both Node.js and a web browser.
+html-to-pptxgenjs-parser provides a simple API for converting HTML into [PptxGenJS](https://github.com/gitbrent/PptxGenJS) text. It runs in both Node.js and a web browser.
 
 # Installation
 Install with ```npm```:
 
-```npm install html2pptxgenjs```
-
-The ```dist``` folder contains the following distribution files:
-- ```html2pptxgenjs.cjs.js``` for Node.js
-- ```html2pptxgenjs.min.js``` for web browsers
+```npm install html-to-pptxgenjs-parser```
 
 # Usage
-Html2pptxgenjs parses and HTML snippet and converts it into a list of items that can be then used with ```addSlide()```.
+html-to-pptxgenjs-parser parses and HTML snippet and converts it into a list of items that can be then used with ```addSlide()```.
 
 ``` js
 let slide = pres.addSlide();
 
-const items = html2pptxgenjs.htmlToPptxText('Hello, <b>world</b>!');
+const items = parser.htmlToPptxText('Hello, <b>world</b>!');
 
 slide.addText(items, { x: 0.5, y: 0, w: 9.5, h: 6, valign: 'top' });
 ```
@@ -24,9 +20,7 @@ slide.addText(items, { x: 0.5, y: 0, w: 9.5, h: 6, valign: 'top' });
 Check ```demo.js``` for a short example of actual usage.
 
 # Features
-Html2pptxgenjs provides a simple API for converting HTML into [PptxGenJS](https://github.com/gitbrent/PptxGenJS) text. It supports the most common and useful HTML tags, as well as basic styling using CSS and inline styles.
-
-Html2pptxgenjs is designed to simplify the creation and management of text boxes, it is not intended to be a complete HTML renderer that can be used to create any slide.
+html-to-pptxgenjs-parser provides a simple API for converting HTML into [PptxGenJS](https://github.com/gitbrent/PptxGenJS) text. It supports the most common and useful HTML tags, as well as basic styling using CSS and inline styles.
 
 ## Tags
 The following tags are supported:
@@ -60,7 +54,7 @@ All elements support the following attributes:
 - ```style```: stylesheet rules for the current element (see Styles)
 
 ## Styles
-Html2pptxgenjs offers basic support for styling using CSS (see Options) and inline styles, also when running in Node.js.
+html-to-pptxgenjs-parser offers basic support for styling using CSS (see Options) and inline styles, also when running in Node.js.
 
 The following properties are supported:
 - ```background```: background color *only*
@@ -97,7 +91,7 @@ const options = {
 
 let slide = pres.addSlide();
 
-const items = html2pptxgenjs.htmlToPptxText('Hello, <span class="world">world</span>!', options);
+const items = parser.htmlToPptxText('Hello, <span class="world">world</span>!', options);
 
 slide.addText(items, { x: 0.5, y: 0, w: 9.5, h: 6, valign: 'top' });
 ```

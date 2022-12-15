@@ -3,12 +3,12 @@ import {terser} from 'rollup-plugin-terser';
 export default {
     input: 'src/main.js',
     output: [{
-        file: 'dist/html2pptxgenjs.cjs.js',
+        file: 'dist/html-to-pptxgenjs-parser.cjs.js',
         format: 'cjs'
     }, {
-        file: 'dist/html2pptxgenjs.min.js',
+        file: 'dist/html-to-pptxgenjs-parser.min.js',
         format: 'iife',
-        name: 'html2pptxgenjs',
+        name: 'html-to-pptxgenjs-parser',
         plugins: [terser()]
     }]
 };
