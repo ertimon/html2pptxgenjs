@@ -290,6 +290,9 @@ function htmlToPptxText(html, options) {
                 context[name] = true;
                 break;
             case 'del':
+            case 'strong':
+                context.b = true;
+                break;
             case 'strike':
                 context.s = true;
                 break;
