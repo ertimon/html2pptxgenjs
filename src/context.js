@@ -15,6 +15,9 @@ function Context(options) {
 
     this.cssRules = [];
 
+    options.paraSpaceAfter && (this.paraSpaceAfter = options.paraSpaceAfter);
+    options.paraSpaceBefore && (this.paraSpaceBefore = options.paraSpaceBefore);
+
     if (options.css) {
         const obj = cssparser.parse(options.css);
 
@@ -26,17 +29,17 @@ Context.prototype.setColor = function (value) {
     const color = this.parseColor(value);
 
     color && (this.color = color);
-}
+};
 
 Context.prototype.setFontFace = function (value) {
     value && (this.fontFace = value);
-}
+};
 
 Context.prototype.parseColor = function (value) {
     const color = parsecolor(value);
 
     return color.hex && color.hex.substring(1);
-}
+};
 
 Context.prototype.parseSize = function (value, stack) {
     let parts = value.trim().match(/([\d\.]+)(%|em|pt|rem)/);
@@ -83,7 +86,7 @@ Context.prototype.parseSize = function (value, stack) {
                 result = Math.round(stack[stack.length - 1].fontSize * size);
                 break;
             case 'em':
-                result = Math.round(this.fontSize * size);
+                result = this.fontSize * size;
                 break;
             case 'pt':
                 result = size;
@@ -95,13 +98,13 @@ Context.prototype.parseSize = function (value, stack) {
     }
 
     return result;
-}
+};
 
 Context.prototype.setFontSize = function (value, stack) {
     const size = this.parseSize(value, stack);
 
     size && (this.fontSize = size);
-}
+};
 
 Context.prototype.applyStyleRules = function (rules) {
     rules.forEach(rule => {
@@ -164,14 +167,14 @@ Context.prototype.applyStyleRules = function (rules) {
                             color: color.hex.substring(1),
                             offset,
                             opacity: color.rgba[3]
-                        }
+                        };
                         console.log(this.shadow);
                     }
                 }
                 break;
         }
     });
-}
+};
 
 Context.prototype.setClass = function (tag, classList) {
     this.cssRules.forEach(rule => {
@@ -190,14 +193,14 @@ Context.prototype.setClass = function (tag, classList) {
             }
         }
     });
-}
+};
 
 Context.prototype.setStyle = function (style) {
     const obj = cssparser.parse('e {' + style + '}');
     const rules = obj.stylesheet.rules[0].declarations;
 
     this.applyStyleRules(rules);
-}
+};
 
 Context.prototype.toPptxTextOptions = function () {
     let options = {};
@@ -205,6 +208,7 @@ Context.prototype.toPptxTextOptions = function () {
     options.align = this.align;
     options.bold = !!this.b;
     options.breakLine = !!this.break;
+    options.softBreakBefore = !!this.softBreak;
     options.color = this.color;
     this.fill && (options.fill = this.fill);
     options.fontFace = this.fontFace;
@@ -215,6 +219,8 @@ Context.prototype.toPptxTextOptions = function () {
     options.subscript = !!this.sub;
     options.superscript = !!this.sup;
     options.underline = !!this.u;
+    this.paraSpaceAfter && (options.paraSpaceAfter = this.paraSpaceAfter);
+    this.paraSpaceBefore && (options.paraSpaceBefore = this.paraSpaceBefore);
 
     switch (this.bullet) {
         case true:
@@ -231,12 +237,12 @@ Context.prototype.toPptxTextOptions = function () {
 
         options.hyperlink = {
             tooltip: this.href_title
-        }
+        };
         options.hyperlink[target] = this.href;
     }
 
     return options;
-}
+};
 
 export default Context;
 

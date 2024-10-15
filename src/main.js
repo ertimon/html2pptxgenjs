@@ -33,10 +33,18 @@ function htmlToPptxText(html, options) {
         context.break = false;
     }
 
+    function addSoftBreak() {
+        let context = currentContext();
+
+        context.softBreak = true;
+        addText('');
+        context.softBreak = false;
+    }
+    
+
     function onopentag(name, attr) {
         let context = Object.create(currentContext());
 
-        contextStack.push(context);
 
         switch (name) {
             case 'a':
@@ -62,12 +70,10 @@ function htmlToPptxText(html, options) {
                 context.i = true;
                 break;
             case 'br':
-                addBreak();
+                addSoftBreak();
                 break;
             case 'p':
-                context.paraSpaceBefore = options.paraSpaceBefore || context.fontSize;
-                addBreak();
-                context.paraSpaceBefore = 0;
+                options.paraSpaceBefore ?? (context.paraSpaceBefore = options.paraSpaceBefore );
                 break;
             case 'ol':
                 context.indent++;
@@ -103,6 +109,8 @@ function htmlToPptxText(html, options) {
         attr.align && (context.align = attr.align);
         context.setClass(name, attr['class']);
         attr.style && context.setStyle(attr.style);
+        contextStack.push(context);
+
     }
 
     function ontext(text) {
@@ -138,7 +146,7 @@ function htmlToPptxText(html, options) {
                 }
                 break;
             case 'p':
-                context.paraSpaceAfter = options.paraSpaceAfter || context.fontSize;
+                options.paraSpaceAfter ?? (context.paraSpaceAfter = options.paraSpaceAfter );
                 addBreak();
                 break;
         }
