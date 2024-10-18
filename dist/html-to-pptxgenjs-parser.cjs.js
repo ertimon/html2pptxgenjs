@@ -17,6 +17,9 @@ function Context(options) {
 
     this.cssRules = [];
 
+    options.paraSpaceAfter && (this.paraSpaceAfter = options.paraSpaceAfter);
+    options.paraSpaceBefore && (this.paraSpaceBefore = options.paraSpaceBefore);
+
     if (options.css) {
         const obj = cssparser.parse(options.css);
 
@@ -85,7 +88,7 @@ Context.prototype.parseSize = function (value, stack) {
                 result = Math.round(stack[stack.length - 1].fontSize * size);
                 break;
             case 'em':
-                result = Math.round(this.fontSize * size);
+                result = this.fontSize * size;
                 break;
             case 'pt':
                 result = size;
@@ -207,6 +210,7 @@ Context.prototype.toPptxTextOptions = function () {
     options.align = this.align;
     options.bold = !!this.b;
     options.breakLine = !!this.break;
+    options.softBreakBefore = !!this.softBreak;
     options.color = this.color;
     this.fill && (options.fill = this.fill);
     options.fontFace = this.fontFace;
@@ -217,6 +221,8 @@ Context.prototype.toPptxTextOptions = function () {
     options.subscript = !!this.sub;
     options.superscript = !!this.sup;
     options.underline = !!this.u;
+    this.paraSpaceAfter && (options.paraSpaceAfter = this.paraSpaceAfter);
+    this.paraSpaceBefore && (options.paraSpaceBefore = this.paraSpaceBefore);
 
     switch (this.bullet) {
         case true:
@@ -271,10 +277,18 @@ function htmlToPptxText(html, options) {
         context.break = false;
     }
 
+    function addSoftBreak() {
+        let context = currentContext();
+
+        context.softBreak = true;
+        addText('');
+        context.softBreak = false;
+    }
+    
+
     function onopentag(name, attr) {
         let context = Object.create(currentContext());
 
-        contextStack.push(context);
 
         switch (name) {
             case 'a':
@@ -300,12 +314,10 @@ function htmlToPptxText(html, options) {
                 context.i = true;
                 break;
             case 'br':
-                addBreak();
+                addSoftBreak();
                 break;
             case 'p':
-                context.paraSpaceBefore = options.paraSpaceBefore || context.fontSize;
-                addBreak();
-                context.paraSpaceBefore = 0;
+                options.paraSpaceBefore ?? (context.paraSpaceBefore = options.paraSpaceBefore );
                 break;
             case 'ol':
                 context.indent++;
@@ -341,6 +353,8 @@ function htmlToPptxText(html, options) {
         attr.align && (context.align = attr.align);
         context.setClass(name, attr['class']);
         attr.style && context.setStyle(attr.style);
+        contextStack.push(context);
+
     }
 
     function ontext(text) {
@@ -376,7 +390,7 @@ function htmlToPptxText(html, options) {
                 }
                 break;
             case 'p':
-                context.paraSpaceAfter = options.paraSpaceAfter || context.fontSize;
+                options.paraSpaceAfter ?? (context.paraSpaceAfter = options.paraSpaceAfter );
                 addBreak();
                 break;
         }
